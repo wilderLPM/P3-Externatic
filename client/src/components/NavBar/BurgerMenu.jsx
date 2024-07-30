@@ -3,8 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Burger from "../../assets/logo/burger.svg";
 import Cross from "../../assets/logo/x.svg";
-import styles from "./BurgerMenu.module.css";
 import { useUserContext } from "../../contexts/UserContext";
+import styles from "./BurgerMenu.module.css";
 
 export default function BurgerMenu() {
   const location = useLocation().pathname;
@@ -46,6 +46,7 @@ export default function BurgerMenu() {
   const profilPageCompany = "/profil-page-company";
   const postOffer = "/post-offer";
   const companyOffers = "/offer-page-company";
+  const newOffer = "/post-offer";
 
   const verifyLocation = (path) => (path === location ? styles.actualPage : "");
 
@@ -62,7 +63,11 @@ export default function BurgerMenu() {
             >
               Accueil
             </Link>
-            <p>&#62;</p>
+          </li>
+          <li className={verifyLocation(resultPage)}>
+            <Link to={resultPage} className={styles.link} onClick={handleClick}>
+              Les Offres
+            </Link>
           </li>
           <li className={verifyLocation(resultPage)}>
             <Link to={resultPage} className={styles.link} onClick={handleClick}>
@@ -79,7 +84,6 @@ export default function BurgerMenu() {
             >
               Se connecter
             </Link>
-            <p>&#62;</p>
           </li>
           <li className={verifyLocation(signupPage)}>
             <Link
@@ -90,7 +94,6 @@ export default function BurgerMenu() {
             >
               S'inscrire
             </Link>
-            <p>&#62;</p>
           </li>
         </ul>
       );
@@ -110,6 +113,11 @@ export default function BurgerMenu() {
             </Link>
             <p>&#62;</p>
           </li>
+          <li className={verifyLocation(resultPage)}>
+            <Link to={resultPage} className={styles.link} onClick={handleClick}>
+              Les Offres
+            </Link>
+          </li>
           <li className={verifyLocation(profilPageCandidate)}>
             <Link
               to="/profil-page-candidate"
@@ -125,13 +133,19 @@ export default function BurgerMenu() {
               to="/page-my-application"
               className={styles.link}
               onClick={handleClick}
+              style={{ pointerEvents: "none" }}
             >
               Mes candidatures
             </Link>
             <p>&#62;</p>
           </li>
           <li>
-            <Link to="/mes-infos" className={styles.link} onClick={handleClick}>
+            <Link
+              to="/mes-infos"
+              className={styles.link}
+              onClick={handleClick}
+              style={{ pointerEvents: "none" }}
+            >
               Mes informations
             </Link>
             <p>&#62;</p>
@@ -145,6 +159,15 @@ export default function BurgerMenu() {
               Se déconnecter
             </button>
             <p>&#62;</p>
+          </li>
+          <li>
+            <button
+              type="button"
+              className={styles.link}
+              onClick={handleLogout}
+            >
+              Se déconnecter
+            </button>
           </li>
         </ul>
       );
@@ -162,6 +185,11 @@ export default function BurgerMenu() {
             Les Offres
           </Link>
           <p>&#62;</p>
+        </li>
+        <li className={verifyLocation(resultPage)}>
+          <Link to={resultPage} className={styles.link} onClick={handleClick}>
+            Les Offres
+          </Link>
         </li>
         <li className={verifyLocation(profilPageCompany)}>
           <Link
@@ -189,9 +217,9 @@ export default function BurgerMenu() {
           </Link>
           <p>&#62;</p>
         </li>
-        <li>
-          <Link to="/mes-infos" className={styles.link} onClick={handleClick}>
-            Mes informations
+        <li className={verifyLocation(newOffer)}>
+          <Link to="/post-offer" className={styles.link} onClick={handleClick}>
+            Nouvelle offre
           </Link>
           <p>&#62;</p>
         </li>
@@ -200,6 +228,11 @@ export default function BurgerMenu() {
             Se déconnecter
           </button>
           <p>&#62;</p>
+        </li>
+        <li>
+          <button type="button" className={styles.link} onClick={handleLogout}>
+            Se déconnecter
+          </button>
         </li>
       </ul>
     );

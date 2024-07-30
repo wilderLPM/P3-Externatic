@@ -38,6 +38,16 @@ const read = async (req, res, next) => {
   }
 };
 
+const readByCompanyId = async (req, res, next) => {
+  try {
+    const offers = await tables.offer.readByCompanyId(req.body.user.id);
+
+    res.json(offers);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const add = async (req, res, next) => {
   try {
     const offer = req.body.offerForm;
@@ -57,6 +67,7 @@ const destroy = async (req, res, next) => {
     const deletedOffer = await tables.offer.delete(id);
 
     // Respond with HTTP 200 (OK) and the response data
+
     res.status(200).json({ deletedOffer });
   } catch (err) {
     // Pass any errors to the error-handling middleware
@@ -71,4 +82,5 @@ module.exports = {
   read,
   add,
   destroy,
+  readByCompanyId,
 };

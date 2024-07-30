@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AvatarUser from "../components/AvatarUser/AvatarUser";
 import ButtonsProfileCandidate from "../components/ButtonsProfileCandidate/ButtonsProfileCandidate";
-import LogoExternatic from "../components/LogoExternatic/LogoExternatic";
 import { useUserContext } from "../contexts/UserContext";
 import useVerifyContext from "../contexts/useVerifyContext";
 
@@ -12,21 +11,24 @@ const ApiUrl = import.meta.env.VITE_API_URL;
 export default function ProfilPageCandidate() {
   const { isAuthorised, fetchData } = useVerifyContext();
   const { user, logout } = useUserContext();
-  const notifyInfo = (text) => toast.info(text);
+  const customId = "custom-id-yes";
+  const notifyInfo = (text) => toast.info(text, { toastId: customId });
+  const notifySuccess = (text) => toast.success(text, { toastId: customId });
+  const notifyFail = (text) => toast.error(text, { toastId: customId });
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout(false);
     notifyInfo(`A bientôt ${user.firstname}`);
-  };
 
-  const notifySuccess = (text) => toast.success(text);
-  const notifyFail = (text) => toast.error(text);
+  };
 
   const handleDelete = async () => {
     try {
       const response = await fetch(`${ApiUrl}/api/users/delete-user`, {
         method: "DELETE",
+
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -50,6 +52,8 @@ export default function ProfilPageCandidate() {
 
       if (isAuthorised === false) {
         navigate("/login-page");
+      } else {
+        notifyInfo(`Bonjour ${user.firstname} !`);
       }
     }
     verifyAuth();
@@ -80,5 +84,6 @@ export default function ProfilPageCandidate() {
         <LogoExternatic />
       </div>
     </>
+
   );
 }

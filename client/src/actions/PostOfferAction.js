@@ -5,6 +5,7 @@ export default async function PostOfferAction(offerForm, user) {
     console.info(user);
     const response = await fetch(`${ApiUrl}/api/offers`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
