@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useUserContext } from "../../contexts/UserContext";
 
 import PostOfferAction from "../../actions/PostOfferAction";
 import styles from "./NewOfferForm.module.css";
 
 export default function NewOfferForm() {
+  const { user } = useUserContext();
   const navigate = useNavigate();
-  const companies = useLoaderData();
   const [errors, setErrors] = useState({});
   const [offerForm, setOfferForm] = useState({
     job_title: "",
@@ -17,7 +18,7 @@ export default function NewOfferForm() {
     salary_rate: "mensuel",
     min_salary: "",
     max_salary: "",
-    company_id: "",
+    company_id: user.roleId,
   });
   const regularPattern = /^[a-zA-ZÀ-ÿ0-9\s,'-]*$/;
   const [isChosen, setIsChosen] = useState(null);
@@ -99,7 +100,7 @@ export default function NewOfferForm() {
       }));
     }
     if (validateForm() === true) {
-      await PostOfferAction(offerForm);
+      await PostOfferAction(offerForm, user);
       navigate("/result-page");
       notifySuccess("Offre postée avec succès");
     } else {
@@ -121,6 +122,7 @@ export default function NewOfferForm() {
     offerForm.salary_rate === "mensuel" ? "Ex: 2500" : "Ex: 12";
   const maxSalaryTernary =
     offerForm.salary_rate === "mensuel" ? "Ex: 3000" : "Ex: 16";
+  const stepTernary = offerForm.salary_rate === "mensuel" ? "500" : "1000";
   const inputClassTernary = (input) => {
     if (errors[input] === null) return valid;
     if (errors[input] === undefined) return "";
@@ -134,24 +136,6 @@ export default function NewOfferForm() {
         className={`px-9 ${styles.form}`}
         onSubmit={handleSubmit}
       >
-        <label htmlFor="company">Vous êtes :</label>
-        <br />
-        <select
-          name="company_id"
-          id="company"
-          aria-required="true"
-          onChange={handleUpdateForm}
-        >
-          <option value="">---</option>
-          {companies.map((company) => (
-            <option value={company.id} key={company.id}>
-              {company.name}
-            </option>
-          ))}
-        </select>
-        <br />
-        <br />
-
         <label htmlFor="job-title">Intitulé du poste</label>
         <br />
         <input
@@ -275,7 +259,7 @@ export default function NewOfferForm() {
           name="content"
           aria-required="true"
           placeholder="Décrire les missions, les prérequis, avantages sociaux, etc"
-          maxLength="500"
+          maxLength="200"
           onChange={handleUpdateForm}
         />
         {errors.content !== undefined ? (
@@ -314,7 +298,7 @@ export default function NewOfferForm() {
                 name="min_salary"
                 min="0"
                 max="999 999"
-                step="1000"
+                step={offerForm.salary_rate === "horaire" ? "1" : stepTernary}
                 placeholder={
                   offerForm.salary_rate === "annuel"
                     ? "Ex: 30000"
@@ -335,7 +319,7 @@ export default function NewOfferForm() {
                 name="max_salary"
                 min="0"
                 max="999 999"
-                step="1000"
+                step={offerForm.salary_rate === "horaire" ? "1" : stepTernary}
                 placeholder={
                   offerForm.salary_rate === "annuel"
                     ? "Ex: 40000"

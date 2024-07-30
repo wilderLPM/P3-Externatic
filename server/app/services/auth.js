@@ -1,5 +1,6 @@
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
+const tables = require("../../database/tables");
 
 const hashingOptions = {
   type: argon2.argon2id,
@@ -31,7 +32,8 @@ const hashPassword = async (req, res, next) => {
 const verifyCookie = (req, res, next) => {
   try {
     const token = req.cookies.access_token;
-    if (!token) {
+    if (token === undefined) {
+      console.info("token not ok", token);
       return res.sendStatus(403);
     }
     req.auth = jwt.verify(token, process.env.APP_SECRET);
@@ -41,7 +43,26 @@ const verifyCookie = (req, res, next) => {
     return res.sendStatus(401);
   }
 };
+
+const checkIfRoleIsCompany = async (req, res, next) => {
+  try {
+    const { sub } = req.auth;
+
+    const userRole = await tables.user.findUserRole(sub);
+    if (userRole.role !== "company") {
+      return res
+        .status(403)
+        .json("Vous n'avez pas les droits pour effectuer cette action !");
+    }
+
+    return next();
+  } catch (err) {
+    return res.sendStatus(404).send("il y eu une erreur");
+  }
+};
+
 module.exports = {
   hashPassword,
   verifyCookie,
+  checkIfRoleIsCompany,
 };

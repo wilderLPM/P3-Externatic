@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AvatarCompany from "../components/AvatarCompany/AvatarCompany";
 import ButtonsProfileCompany from "../components/ButtonsProfileCompany/ButtonsProfileCompany";
-import LogoExternatic from "../components/LogoExternatic/LogoExternatic";
 import { useUserContext } from "../contexts/UserContext";
 
-export default function ProfilPageCandidate() {
+export default function ProfilPageCompany() {
   const ApiUrl = import.meta.env.VITE_API_URL;
   const { user, logout } = useUserContext();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const notifySuccess = (text) => toast.success(text);
-  const notifyFail = (text) => toast.error(text);
-  const notifyInfo = (text) => toast.info(text);
+  const customId = "custom-id-yes";
+  const notifySuccess = (text) => toast.success(text, { toastId: customId });
+  const notifyFail = (text) => toast.error(text, { toastId: customId });
+  const notifyInfo = (text) => toast.info(text, { toastId: customId });
 
   const getProfile = async () => {
     try {
@@ -26,6 +26,10 @@ export default function ProfilPageCandidate() {
 
       if (response.status === 200) {
         const data = await response.json();
+        if (data.role !== "company") {
+          navigate("/profil-page-candidate");
+        }
+
         setUserData(data);
         notifySuccess(`Bienvenue ${data.name}`);
       } else if (response.status === 401) {
@@ -54,25 +58,17 @@ export default function ProfilPageCandidate() {
 
   return (
     <div>
-      <div className="flex justify-center w-32 mx-auto ">
-        <LogoExternatic />
-      </div>
       <div className="mt-20">
-        {userData ? (
-          <>
-            <AvatarCompany user={userData} />
-            <ButtonsProfileCompany />
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="flex justify-center mx-auto"
-            >
-              Se déconnecter
-            </button>
-          </>
-        ) : (
-          <div>Chargement...</div>
-        )}
+        <AvatarCompany user={user} />
+        <ButtonsProfileCompany />
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="flex justify-center mx-auto"
+        >
+          Se déconnecter
+        </button>
+
       </div>
     </div>
   );

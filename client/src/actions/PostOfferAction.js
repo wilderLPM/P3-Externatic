@@ -1,13 +1,19 @@
 const ApiUrl = import.meta.env.VITE_API_URL;
 
-export default async function PostOfferAction(offerForm) {
+export default async function PostOfferAction(offerForm, user) {
   try {
+    console.info(user);
     const response = await fetch(`${ApiUrl}/api/offers`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(offerForm),
+      body: JSON.stringify({
+        offerForm,
+        user,
+      }),
+      credentials: "include",
     });
     if (response.ok !== true) {
       // response.status !== 201
