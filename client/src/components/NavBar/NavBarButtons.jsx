@@ -37,7 +37,8 @@ export default function NavBarButtons() {
     if (user.role === "candidate") {
       return (
         <div className={styles.container}>
-          <p>Candidat</p>
+          <p>{user.firstname}</p>
+
           <Link
             to="/profil-page-candidate"
             className={styles.link}
@@ -54,7 +55,8 @@ export default function NavBarButtons() {
     }
     return (
       <div className={styles.container}>
-        <p>Entreprise</p>
+        <p>{user.name}</p>
+
         <Link
           to="/profil-page-company"
           className={styles.link}

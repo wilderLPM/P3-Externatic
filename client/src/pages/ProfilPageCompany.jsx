@@ -59,25 +59,16 @@ export default function ProfilPageCompany() {
   return (
     <div>
       <div className="mt-20">
-        {userData ? (
-          <div className="md:flex justify-center items-center flex-row gap-24 mt-40">
-            <div>
-              <AvatarCompany user={userData} />
-            </div>
-            <div>
-              <ButtonsProfileCompany />
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="flex justify-center mx-auto"
-              >
-                Se déconnecter
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div>Chargement...</div>
-        )}
+        <AvatarCompany user={user} />
+        <ButtonsProfileCompany />
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="flex justify-center mx-auto"
+        >
+          Se déconnecter
+        </button>
+
       </div>
     </div>
   );

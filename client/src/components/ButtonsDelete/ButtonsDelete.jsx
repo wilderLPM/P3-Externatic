@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 
-export default function ButtonsDelete({ id }) {
+export default function ButtonsDelete({ id, user }) {
   const ApiUrl = import.meta.env.VITE_API_URL;
   const notifySuccess = (text) => toast.success(text);
   const notifyFail = (text) => toast.error(text);
@@ -13,7 +13,10 @@ export default function ButtonsDelete({ id }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({
+          id,
+          user,
+        }),
       });
 
       if (response.ok) {
@@ -42,4 +45,5 @@ export default function ButtonsDelete({ id }) {
 
 ButtonsDelete.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  user: PropTypes.shape.isRequired,
 };

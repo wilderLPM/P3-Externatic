@@ -44,6 +44,7 @@ export default function BurgerMenu() {
   const myApplications = "/page-my-application";
 
   const profilPageCompany = "/profil-page-company";
+  const postOffer = "/post-offer";
   const companyOffers = "/offer-page-company";
   const newOffer = "/post-offer";
 
@@ -67,6 +68,12 @@ export default function BurgerMenu() {
             <Link to={resultPage} className={styles.link} onClick={handleClick}>
               Les Offres
             </Link>
+          </li>
+          <li className={verifyLocation(resultPage)}>
+            <Link to={resultPage} className={styles.link} onClick={handleClick}>
+              Les Offres
+            </Link>
+            <p>&#62;</p>
           </li>
           <li className={verifyLocation(loginPage)}>
             <Link
@@ -98,6 +105,13 @@ export default function BurgerMenu() {
             <Link to="/" className={styles.link}>
               Accueil
             </Link>
+            <p>&#62;</p>
+          </li>
+          <li className={verifyLocation(resultPage)}>
+            <Link to={resultPage} className={styles.link} onClick={handleClick}>
+              Les Offres
+            </Link>
+            <p>&#62;</p>
           </li>
           <li className={verifyLocation(resultPage)}>
             <Link to={resultPage} className={styles.link} onClick={handleClick}>
@@ -112,6 +126,7 @@ export default function BurgerMenu() {
             >
               Mon profil
             </Link>
+            <p>&#62;</p>
           </li>
           <li className={verifyLocation(myApplications)}>
             <Link
@@ -122,6 +137,7 @@ export default function BurgerMenu() {
             >
               Mes candidatures
             </Link>
+            <p>&#62;</p>
           </li>
           <li>
             <Link
@@ -132,6 +148,17 @@ export default function BurgerMenu() {
             >
               Mes informations
             </Link>
+            <p>&#62;</p>
+          </li>
+          <li>
+            <button
+              type="button"
+              className={styles.link}
+              onClick={handleLogout}
+            >
+              Se déconnecter
+            </button>
+            <p>&#62;</p>
           </li>
           <li>
             <button
@@ -151,6 +178,13 @@ export default function BurgerMenu() {
           <Link to="/" className={styles.link} onClick={handleClick}>
             Accueil
           </Link>
+          <p>&#62;</p>
+        </li>
+        <li className={verifyLocation(resultPage)}>
+          <Link to={resultPage} className={styles.link} onClick={handleClick}>
+            Les Offres
+          </Link>
+          <p>&#62;</p>
         </li>
         <li className={verifyLocation(resultPage)}>
           <Link to={resultPage} className={styles.link} onClick={handleClick}>
@@ -165,6 +199,7 @@ export default function BurgerMenu() {
           >
             Mon profil
           </Link>
+          <p>&#62;</p>
         </li>
         <li className={verifyLocation(companyOffers)}>
           <Link
@@ -174,11 +209,25 @@ export default function BurgerMenu() {
           >
             Mes offres
           </Link>
+          <p>&#62;</p>
+        </li>
+        <li className={verifyLocation(postOffer)}>
+          <Link to={postOffer} className={styles.link} onClick={handleClick}>
+            Nouvelle offre
+          </Link>
+          <p>&#62;</p>
         </li>
         <li className={verifyLocation(newOffer)}>
           <Link to="/post-offer" className={styles.link} onClick={handleClick}>
             Nouvelle offre
           </Link>
+          <p>&#62;</p>
+        </li>
+        <li>
+          <button type="button" className={styles.link} onClick={handleLogout}>
+            Se déconnecter
+          </button>
+          <p>&#62;</p>
         </li>
         <li>
           <button type="button" className={styles.link} onClick={handleLogout}>
